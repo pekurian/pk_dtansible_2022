@@ -1,0 +1,28 @@
+- name: Common playbook
+  hosts: ubuntu
+
+  vars:
+    list:
+      - galaxy
+      - vulcan 
+      - ameros
+
+
+  tesks
+
+  tasks:
+    - name: Install packages
+      apt:
+        name:
+          - htop
+          - vim
+          - php8.1
+          - kazam 
+          - filezila
+          - bluefish  
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:       
+        - packages         
+

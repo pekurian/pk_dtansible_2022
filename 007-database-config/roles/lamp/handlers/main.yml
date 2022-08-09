@@ -1,0 +1,14 @@
+---
+# handlers file for lamp
+- name: start apache2
+  ansible.builtin.service:
+    name: apache2
+    state: started
+  become: yes
+
+- name: start mysql
+  ansible.builtin.service:
+    name: mysqld
+    state: started
+  become: yes
+

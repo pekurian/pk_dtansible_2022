@@ -1,0 +1,50 @@
+---
+# tasks file for lamp
+- become: yes
+  tags:
+    - lamp
+  block:
+    - name: Install php8.1 prerequisities
+      apt:
+        name:
+          - lsb-release
+          - ca-certificates
+          - apt-transport-https
+          - software-properties-common
+        state: present
+        update_cache: yes
+
+    - name: Add ppa repository for php8.1
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+
+    - name: Install LAMP
+      apt:
+        name: 
+          - apache2
+          - php8.1
+          - php8.1-mysql
+#          - mariadb-server
+#          - mariadb-client
+        state: present
+        update_cache: yes
+      notify:
+        - start apache2
+#        - start mysql
+
+    - name: Deploy index.html
+      copy: 
+        src: index.html
+        dest: /var/www/html/index.html
+
+    #- name: Make sure index.html does not exist
+    #  file:
+    #    path: /var/www/html/index.html
+    #    state: absent
+
+    - name: Deploy index.php
+      copy: 
+        src: index.php
+        dest: /var/www/html/index.php
+

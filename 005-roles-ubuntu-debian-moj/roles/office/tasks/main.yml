@@ -1,0 +1,13 @@
+---
+# tasks file for office
+- name: Install office packages
+  when:
+      - ansible_distribution == "CentOS"
+  apt:
+    name:
+      - libreoffice
+      - pidgin
+    update_cache: yes
+    state: present
+  become: yes
+

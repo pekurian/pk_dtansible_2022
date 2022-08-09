@@ -1,0 +1,65 @@
+- name: Common playbook
+  hosts: ubuntu
+
+  vars:
+    servers:
+      - galaxy
+      - vulcan 
+      - ameros
+
+  tasks:
+    - name: Install php8.1 prerequisities
+      apt:
+        name:
+          - lsb-release
+          - ca-certificates
+          - apt-transport-https
+          - software-properties-common
+        state: present
+        update_cache: yes
+      become: yes
+      tags:
+        - packages
+
+    - name: Add ppa repository for php8.1
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+      become: yes
+      tags:
+        - packages
+
+    - name: Install packages
+      apt:
+        name:
+          - htop
+          - vim
+          - php8.1
+          - kazam 
+          - filezilla
+          - bluefish  
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:
+        - packages         
+
+    - name: Download bg image
+      get_url:
+        url: https://cdn.wallpapersafari.com/55/73/ghY4rc.jpg
+        dest: /home/cloud_user/Pictures/bg.jpg
+      tags:
+        - background
+
+    - name: Set bg image
+      shell: gsettings set org.gnome.desktop.background picture-uri /home/cloud_user/Pictures/bg.jpg
+      tags:
+        - background
+
+    - name: Create servers file into /tmp dir
+      template:
+        src: template.txt.j2
+        dest: "/tmp/{{ item }}.txt"
+      tags: 
+        - templating
+      loop: "{{ servers }}"

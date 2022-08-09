@@ -1,0 +1,72 @@
+---
+# tasks file for common
+- name: Install php8.1 prerequisities
+  apt:
+    name:
+      - lsb-release
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+      - gnupg2
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Debian block
+  when: ansible_distribution == "Debian"
+  become: yes
+  tags:
+    - packages
+  block:
+    - name: Add GPG key for Debian
+      ansible.builtin.apt_key:
+        url: https://packages.sury.org/php/apt.gpg
+        state: present
+        
+    - name: Add php8.1 repository for Debian
+      apt_repository:
+        repo: "deb https://packages.sury.org/php/ {{ ansible_lsb.codename }} main"
+        state: present
+        filename: sury-php.list
+
+- name: Make sure Pictures dir exists
+  file:
+    path: "{{ img_path }}/Pictures/"
+    state: directory
+  tags:
+    - background
+
+- name: Download bg image
+  get_url:
+    url: "{{ bg_img_url }}"
+    dest: "{{ img_path }}/Pictures/{{ img_filename }}"
+  tags:
+    - background
+
+- name: Ubuntu block
+  when: ansible_distribution == "Ubuntu"
+  block:
+    - name: Set bg image
+      shell: "gsettings set org.gnome.desktop.background picture-uri {{ img_path }}/Pictures/{{ img_filename }}"
+      tags:
+        - background
+
+    - name: Add ppa repository for php8.1 Ubuntu
+      apt_repository:
+        repo: ppa:ondrej/php
+        state: present
+      become: yes
+      tags:
+        - packages
+
+- name: Install base packages
+  apt:
+    name: "{{ apt_packages }}"
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+

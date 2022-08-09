@@ -1,0 +1,16 @@
+---
+- name: Common playbook
+  hosts: 
+    - ubuntu
+
+  vars:
+    img_path: /tmp/
+    servers:
+      - galaxy
+      - vulcan
+      - ameros
+
+  roles:
+    - common
+  
+

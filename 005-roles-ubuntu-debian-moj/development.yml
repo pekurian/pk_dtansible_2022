@@ -1,0 +1,11 @@
+- name: Development playbook
+  hosts:
+    - development_machines
+
+  vars:
+    bg_img_url: https://cdn.wallpapersafari.com/55/73/ghY4rc.jpg
+    img_filename: development.jpg
+
+  roles:
+    - common
+    - dev 

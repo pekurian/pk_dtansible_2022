@@ -1,0 +1,58 @@
+---
+# tasks file for common
+- name: Install php8.1 prerequisities
+  apt:
+    name:
+      - lsb-release
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Add ppa repository for php8.1
+  apt_repository:
+    repo: ppa:ondrej/php
+    state: present
+  become: yes
+  tags:
+    - packages
+
+- name: Install base packages
+  apt:
+    name: "{{ apt_packages }}"
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Make sure Pictures dir exists
+  file:
+    path: "{{ img_path }}/Pictures/"
+    state: directory
+  tags:
+    - background
+
+- name: Download bg image
+  get_url:
+    url: "{{ bg_img_url }}"
+    dest: "{{ img_path }}/Pictures/{{ img_filename }}"
+  tags:
+    - background
+
+- name: Set bg image
+  shell: "gsettings set org.gnome.desktop.background picture-uri {{ img_path }}/Pictures/{{ img_filename }}"
+  tags:
+    - background
+
+- name: "Create server file into tmp dir"
+  template:
+    src: template.txt.j2
+    dest: "/tmp/{{ item }}.txt"
+  tags:
+    - templating
+  loop: "{{ servers }}"

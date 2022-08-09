@@ -1,0 +1,8 @@
+[linuxes]
+debian	ansible_port=10022
+ubuntu	ansible_port=11022
+centos	ansible_port=12022
+
+[all:vars]
+ansible_host=127.0.0.1
+ansible_user=vagrant

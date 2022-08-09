@@ -1,0 +1,12 @@
+[development_machines]
+debian
+ubuntu
+
+[administrative_machines]
+debian
+ubuntu
+
+[management_machines]
+debian
+ubuntu
+#centos 

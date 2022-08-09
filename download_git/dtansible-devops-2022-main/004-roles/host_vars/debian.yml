@@ -1,0 +1,2 @@
+ansible_port: 10022
+ansible_become_password: '{{ debian_sudo_pass }}'

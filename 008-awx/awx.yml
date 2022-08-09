@@ -1,0 +1,7 @@
+- name: Testing AWX
+  hosts: 
+    - pk_machines
+
+  roles:
+    - testing
+

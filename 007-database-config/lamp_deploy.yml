@@ -1,0 +1,8 @@
+--- 
+- name: Install lamp and deploy app
+  hosts: 
+    - deploy_servers
+
+  roles:
+    - lamp
+

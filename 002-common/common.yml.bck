@@ -1,0 +1,75 @@
+- name: Common playbook
+  hosts: debian
+
+  vars:
+#    - testing_var
+    list:
+      - galaxy
+      - vulcan 
+      - ameros
+
+  tasks:
+    - name: Install htop
+      apt:
+        name:
+          - htop
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:       
+        - packages         
+    - name: install vim
+      apt:
+        name:
+          - vim
+        state: present
+        update_cache: yes
+      become: yes
+      tags:
+        - packages
+    - name: install php8.1
+      apt:     
+        name:  
+          - php8.1
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:       
+        - packages           
+    - name: install kazam
+      apt:     
+        name:  
+          - kazam
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:       
+        - packages    
+    - name: install filezila
+      apt:     
+        name:  
+          - filezila
+        state: present
+        update_cache: yes
+      become: yes 
+      tags:       
+        - packages           
+    - name: install bluefish
+      apt:     
+        name:  
+          - bluefish            
+        state: present
+        update_cache: yes
+      become: yes
+      tags:
+        - packages
+
+  tasks:
+    - name: Ensure apache is at the latest version
+      ansible.builtin.yum:
+        name: httpd
+        state: latest  tasks:
+                - name: Ensure apache is at the latest version
+                      ansible.builtin.yum:
+                                    name: httpd
+                                          state: latest::         

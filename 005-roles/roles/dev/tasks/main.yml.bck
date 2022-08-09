@@ -1,0 +1,22 @@
+---
+# tasks file for developmnet
+- name: Install base packages
+  apt:
+    name: "{{ apt_packages }}"
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Download bg image
+  get_url:
+    url: "{{ bg_img_url }}"
+    dest: "{{ img_path }}/Pictures/{{ img_filename }}"
+  tags:
+    - background
+
+- name: Set bg image
+  shell: "gsettings set org.gnome.desktop.background picture-uri {{ img_path }}/Pictures/{{ img_filename }}"
+  tags:
+    - background

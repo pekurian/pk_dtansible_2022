@@ -1,0 +1,5 @@
+[linuxes]
+ubuntu  ansible_host=127.0.0.1 ansible_become_password='{{ ubuntu_sudo_pass }}'
+debian  ansible_host=172.31.30.148 ansible_become_password='{{ debian_sudo_pass }}'
+centos  ansible_host=172.31.23.58 ansible_become_password='{{ centos_sudo_pass }}'
+

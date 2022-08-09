@@ -1,0 +1,5 @@
+[linuxes]
+ubuntu  ansible_host=127.0.0.1 ansible_user=cloud_user
+#ubuntu ansible_host=52.56.99.196 ansible_user=cloud_user ansible_distribution=Ubuntu
+debian  ansible_host=172.31.30.148 ansible_user=cloud_user
+centos  ansible_host=172.31.23.58 ansible_user=cloud_user#ansible_host=127.0.0.1

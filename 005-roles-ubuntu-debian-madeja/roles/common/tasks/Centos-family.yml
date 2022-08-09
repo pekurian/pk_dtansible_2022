@@ -1,0 +1,21 @@
+- name: CentOS block
+  become: yes
+  tags:
+    - packages
+  block:
+    - name: Install the php rpm from a remote repo
+      ansible.builtin.dnf:
+        name: 
+          - https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+          # - https://rpms.remirepo.net/enterprise/remi-release-8.rpm
+          # - epel-release
+        state: present
+        enablerepo: php:remi-8.1
+        skip_broken: yes
+        disable_gpg_check: yes
+
+    - name: Install base packages
+      dnf:
+        name: "{{ dnf_packages }}"
+        state: present
+

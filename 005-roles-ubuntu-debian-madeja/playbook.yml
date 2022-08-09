@@ -1,0 +1,11 @@
+- name: Common playbook
+  hosts: ubuntu
+
+  vars:
+    servers:
+      - galaxy
+      - vulcan 
+      - ameros
+
+  roles:
+    - common

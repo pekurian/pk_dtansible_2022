@@ -1,0 +1,60 @@
+---
+# tasks file for dev
+- name: Docker block
+  become: yes
+  tags:
+    - install
+    - docker
+  block:
+    - name: Install docker prerequisities
+      apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+        update_cache: yes
+
+    - name: Make sure that /etc/apt/keyrings dir exists
+      file:
+        path: /etc/apt/keyrings
+        state: directory
+
+    # - name: Add GPG key for docker repo
+    #   ansible.builtin.get_url:
+    #     url: https://download.docker.com/linux/ubuntu/gpg
+    #     dest: /etc/apt/keyrings/docker.gpg
+
+    # https://www.reddit.com/r/ansible/comments/u2vy26/apt_key/
+    - name: Add GPG key for docker repo
+      ansible.builtin.shell: "curl -fsSL https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg --yes"
+
+    - name: Add repo to source lists
+      shell: 'echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu eoan stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null'
+
+    - name: Install docker, git and docker-compose
+      apt:
+        name: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - git
+          - docker-compose
+        state: present
+        update_cache: yes
+
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add users to group "docker"
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop: "{{ default_docker_group_users }}"
+
+
+

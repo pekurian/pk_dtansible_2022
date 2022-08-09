@@ -1,0 +1,16 @@
+---
+- name: Management playbook
+  hosts: 
+    - management_machines
+
+  vars:
+    bg_img_url: https://www.reactive-executive.com/wp-content/uploads/2017/12/Change-Management.jpg
+    img_filename: management.jpg
+
+  roles:
+    - common
+    - dev
+    - office
+
+  
+

@@ -1,0 +1,8 @@
+[linuxes]
+debian	ansible_port=10022 ansible_become_password='{{ debian_sudo_pass }}'
+ubuntu	ansible_port=11022 ansible_become_password='{{ ubuntu_sudo_pass }}'
+centos	ansible_port=12022 ansible_become_password='{{ centos_sudo_pass }}'
+
+[all:vars]
+ansible_host=127.0.0.1
+ansible_user=vagrant

@@ -1,0 +1,13 @@
+---
+# defaults file for common
+img_path: "{{ ansible_env.HOME }}"
+bg_img_url: "https://cdn.wallpapersafari.com/55/73/ghY4rc.jpg"
+img_filename: "bg.jpg"
+
+apt_packages:
+  - htop
+  - vim
+  - php8.1
+  - kazam
+  - filezilla
+  - bluefish

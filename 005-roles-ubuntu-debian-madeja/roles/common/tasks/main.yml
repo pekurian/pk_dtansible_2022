@@ -1,0 +1,8 @@
+---
+# tasks file for common
+- include: Debian-family.yml
+  when: ansible_os_family == 'Debian'
+
+- include: Centos-family.yml
+  when: ansible_os_family == 'RedHat'
+

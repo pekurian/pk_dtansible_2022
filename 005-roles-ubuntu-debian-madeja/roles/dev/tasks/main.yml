@@ -1,0 +1,23 @@
+---
+# tasks file for developmnet
+- include: Debian-family.yml
+  when: ansible_os_family == 'Debian'
+
+- include: Centos-family.yml
+  when: ansible_os_family == 'RedHat'
+
+
+- become: yes
+  block:
+    - name: Ensure group "docker" exists
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add users to group "docker"
+      ansible.builtin.user:
+        name: "{{ item }}"
+        groups: docker
+        append: yes
+      loop: "{{ default_docker_group_users }}"
+

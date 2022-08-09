@@ -1,0 +1,28 @@
+- name: Testing playbook
+  hosts: debian
+
+  vars:
+#    - testing_var
+    list:
+      - polozka1
+      - polozka2
+      - polozka3
+ 
+  tasks:
+    - name: Install vim
+      apt:
+        name:
+          - vim
+        state: present
+        update_cache: yes
+      become: yes
+      tags:
+        - install	 
+
+    - name: "Template a file to /tmp dir {{ ansible_user }}"
+      template:
+        src: template.txt.j2
+        dest: "/tmp/{{ item}}.txt"
+      tags: 
+        - templating
+      loop: "{{ list }}"

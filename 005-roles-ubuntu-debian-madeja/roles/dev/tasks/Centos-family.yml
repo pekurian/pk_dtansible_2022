@@ -1,0 +1,80 @@
+- name: Docker block for CentOS Family
+  become: yes
+  block:
+    # - name: Add repository
+    #   shell: sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+    - name: Add repository
+      ansible.builtin.yum_repository:
+        file: docker-ce
+        name: "{{ item.name }}"
+        description: "{{ item.description }}"
+        baseurl: "{{ item.baseurl }}"
+        enabled: "{{ item.enabled }}"
+        gpgcheck: "{{ item.gpgcheck }}"
+        gpgkey: "{{ item.gpgkey }}"
+      loop:
+        - name: docker-ce-stable
+          description: Docker CE Stable - $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+          enabled: yes
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-stable-debuginfo
+          description: Docker CE Stable - Debuginfo $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/debug-$basearch/stable
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-stable-source
+          description: Docker CE Stable - Sources
+          baseurl: https://download.docker.com/linux/centos/$releasever/source/stable
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-test
+          description: Docker CE Test - $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/test
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-test-debuginfo
+          description: Docker CE Test - Debuginfo $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/debug-$basearch/test
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-test-source
+          description: Docker CE Test - Sources
+          baseurl: https://download.docker.com/linux/centos/$releasever/source/test
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-nightly
+          description: Docker CE Nightly - $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/nightly
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-nightly-debuginfo
+          description: Docker CE Nightly - Debuginfo $basearch
+          baseurl: https://download.docker.com/linux/centos/$releasever/debug-$basearch/nightly
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+        - name: docker-ce-nightly-source
+          description: Docker CE Nightly - Sources
+          baseurl: https://download.docker.com/linux/centos/$releasever/source/nightly
+          enabled: no
+          gpgcheck: yes
+          gpgkey: https://download.docker.com/linux/centos/gpg
+
+    - name: Install docker
+      yum:
+        name: 
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: present
+

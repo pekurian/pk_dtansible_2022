@@ -1,0 +1,26 @@
+---
+- name: Install php8.1 prerequisities on Debian
+  apt:
+    name:
+      - lsb-release
+      - ca-certificates
+      - apt-transport-https
+      - software-properties-common
+      - gnupg2 
+    state: present
+#    update_cache: yes
+  become: yes
+  tags:
+    - packages
+
+- name: Import packages signing GPG key
+  shell: wget -qO - https://packages.sury.org/php/apt.gpg | apt-key add -
+  become: yes
+  tags:
+    - packages    
+
+- name: Add ppa repository for php8.1 on Debian
+  shell: echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/sury-php.list 
+  become: yes
+  tags:
+    - packages

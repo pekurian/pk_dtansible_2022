@@ -1,0 +1,15 @@
+---
+# tasks file for database
+- name: Install MariaDB
+  apt: 
+    name:  
+      - mariadb-server
+      - mariadb-client
+    state: present
+    update_cache: yes
+  become: yes
+  tags:
+    - database
+  notify:
+    - start mysql
+
